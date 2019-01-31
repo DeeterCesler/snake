@@ -27,18 +27,6 @@ buildGrid(20,20);
 
 let score = 0;
 $("body").append(`<div class='score'>${score}</div>`)
-let timer = 20;
-$(".timer h2").html(`${timer}`);
-
-const countdown = setInterval(function(){
-    timer--;
-    $(".timer h2").html(`${timer}`);
-}, 1000);
-
-setTimeout(function(){
-    gameOver();
-    clearInterval(countdown);
-}, timer*1000);
 
 
 // move a block from grid point to grid point
@@ -46,8 +34,11 @@ setTimeout(function(){
     
 let snakeRow = 0;
 let snakeColumn = 0;
+let snakeDirection = "right";
 let newPosition = "#row0column0";
 let fruitPosition;
+let snakeBodyLocation = []
+let hackySolutionBecauseIHateClearInterval = 0;
 
 $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
 
@@ -55,6 +46,44 @@ const controls = () => {
     document.addEventListener('keypress', (event) => {
         const keyName = event.key;
         if(keyName === "d"){
+            if(snakeDirection === "left"){
+                return
+            }else{
+                snakeDirection = "right";
+                return;
+            }
+        }
+        if(keyName === "a"){
+            if(snakeDirection === "right"){
+                return
+            }else{
+                snakeDirection = "left";
+                return;
+            }
+        }
+        if(keyName === "w"){
+            if(snakeDirection === "down"){
+                return
+            }else{
+                snakeDirection = "up";
+                return;
+            }
+        }
+        if(keyName === "s"){
+            if(snakeDirection === "up"){
+                return
+            }else{
+                snakeDirection = "down";
+            }
+        }
+        console.log(newPosition);
+    })
+}
+
+const movement = () => {
+    controls();
+    const autoMove = setInterval(function(){
+        if(snakeDirection === "right"){
             if(snakeColumn === maxWidth){
                 gameOver();
             }
@@ -66,7 +95,7 @@ const controls = () => {
             // console.log(newPosition);
             $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         }
-        if(keyName === "a"){
+        if(snakeDirection === "left"){
             if(snakeColumn === 0){
                 gameOver();
             }
@@ -78,7 +107,7 @@ const controls = () => {
             // console.log(newPosition);
             $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         }
-        if(keyName === "w"){
+        if(snakeDirection === "up"){
             if(snakeRow === 0){
                 gameOver();
             }
@@ -90,7 +119,7 @@ const controls = () => {
             // console.log(newPosition);
             $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         }
-        if(keyName === "s"){
+        if(snakeDirection === "down"){
             if(snakeRow === maxHeight){
                 gameOver();
             }
@@ -103,24 +132,25 @@ const controls = () => {
             $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         }
         scoreCounter();
-        console.log(newPosition);
-    })
+    }, 500);
+    snakeBodyLocation[0] = {}
 }
-      
-controls();
+
+movement();
 
 // log a point if the snake head eats a fruit
 $("#row3column3 .holder").append("<div id='fruit'></div>")
-
-console.log(newPosition);
 
 fruitPosition = $("#fruit").parent().parent().attr("id");
 
 console.log(fruitPosition);
 
 const gameOver = () => {
-    $("table").remove();
-    $("body").append("<h1>GAME OVER</h1>")
+    if(hackySolutionBecauseIHateClearInterval === 0){
+        $("table").remove();
+        $("body").append("<h1>GAME OVER</h1>")
+    }
+    hackySolutionBecauseIHateClearInterval++;
 }
 
 
@@ -134,9 +164,15 @@ const newFruitPosition = () => {
     else {$(`#${fruitPosition} .holder`).append("<div id='fruit'></div>")}
 }
 
+function addSnakeLength(){
+    // add to an array where the snake head was last
+    // pass it down
+}
+
 const scoreCounter = () => {
     if("#" + fruitPosition === newPosition){
         score++;
+        addSnakeLength();
         $("#fruit").remove();
         newFruitPosition();
         $(".score").empty();
