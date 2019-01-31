@@ -122,6 +122,9 @@ const movement = () => {
             }
         }
         newPosition = "#row" + snakeRow + "column" + snakeColumn
+        if(snakeBodyLocation.includes(newPosition)){
+            gameOver();
+        }
         snakeBodyLocation.push(newPosition);
         $("#snake-head").remove();
         $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
