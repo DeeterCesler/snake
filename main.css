@@ -1,0 +1,39 @@
+table {
+    border-spacing: 0;
+}
+
+td {
+    /* display: -ms-grid; */
+    background-color: blue;
+    border-color: grey;
+    position: relative;
+}
+
+tr {
+    height: 20px;
+    background-color: red;
+
+}
+
+.holder {
+    height: 20px;
+    width: 20px;
+    position: relative;
+}
+
+#snake-head{
+    background-color: green;
+    height: 20px;
+    width: 20px;
+    position: relative;
+}
+
+#fruit{
+    background-color: red;
+    height: 20px;
+    width: 20px;
+}
+
+.score {
+    font-size: 2em;
+}
