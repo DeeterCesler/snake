@@ -33,47 +33,52 @@ $("body").append(`<div class='score'>${score}</div>`)
 // start 
     
 let snakeRow = 0;
-let snakeColumn = 0;
-let snakeDirection = "right";
-let newPosition = "#row0column0";
+let snakeColumn = 2;
+let snakeLength = 3;
+let lastDirection = "right";
+let nextDirection = "right";
+let newPosition = "#row0column2";
+let lastPosition;
 let fruitPosition;
-let snakeBodyLocation = []
+let snakeBodyLocation = ["#row0column0", "#row0column1", newPosition]
 let hackySolutionBecauseIHateClearInterval = 0;
 
 $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
+$(`#row0column1 .holder`).append("<div class='snake-body'></div>");
+$(`#row0column0 .holder`).append("<div class='snake-body'></div>");
 
 const controls = () => {
     document.addEventListener('keypress', (event) => {
         const keyName = event.key;
         if(keyName === "d"){
-            if(snakeDirection === "left"){
+            if(lastDirection === "left"){
                 return
             }else{
-                snakeDirection = "right";
+                nextDirection = "right";
                 return;
             }
         }
         if(keyName === "a"){
-            if(snakeDirection === "right"){
+            if(lastDirection === "right"){
                 return
             }else{
-                snakeDirection = "left";
+                nextDirection = "left";
                 return;
             }
         }
         if(keyName === "w"){
-            if(snakeDirection === "down"){
+            if(lastDirection === "down"){
                 return
             }else{
-                snakeDirection = "up";
+                nextDirection = "up";
                 return;
             }
         }
         if(keyName === "s"){
-            if(snakeDirection === "up"){
+            if(lastDirection === "up"){
                 return
             }else{
-                snakeDirection = "down";
+                nextDirection = "down";
             }
         }
         console.log(newPosition);
@@ -83,57 +88,52 @@ const controls = () => {
 const movement = () => {
     controls();
     const autoMove = setInterval(function(){
-        if(snakeDirection === "right"){
+        lastPosition = newPosition;
+        if(nextDirection === "right"){
             if(snakeColumn === maxWidth){
                 gameOver();
             }
             if(snakeColumn < maxWidth){
                 snakeColumn++;
             }
-            $("#snake-head").remove();
-            newPosition = "#row" + snakeRow + "column" + snakeColumn
-            // console.log(newPosition);
-            $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         }
-        if(snakeDirection === "left"){
+        if(nextDirection === "left"){
             if(snakeColumn === 0){
                 gameOver();
             }
             if(snakeColumn > 0){
                 snakeColumn--;
             }
-            $("#snake-head").remove();
-            newPosition = "#row" + snakeRow + "column" + snakeColumn
-            // console.log(newPosition);
-            $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         }
-        if(snakeDirection === "up"){
+        if(nextDirection === "up"){
             if(snakeRow === 0){
                 gameOver();
             }
             if(snakeRow > 0){
                 snakeRow--;
             }
-            $("#snake-head").remove();
-            newPosition = "#row" + snakeRow + "column" + snakeColumn
-            // console.log(newPosition);
-            $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         }
-        if(snakeDirection === "down"){
+        if(nextDirection === "down"){
             if(snakeRow === maxHeight){
                 gameOver();
             }
             if(snakeRow < maxHeight){
                 snakeRow++;
             }
-            $("#snake-head").remove();
-            newPosition = "#row" + snakeRow + "column" + snakeColumn
-            // console.log(newPosition);
-            $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         }
+        newPosition = "#row" + snakeRow + "column" + snakeColumn
+        snakeBodyLocation.push(newPosition);
+        $("#snake-head").remove();
+        $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
+        $(".snake-body").remove();
+        for(let i=snakeLength+1; i>0; i--){
+            $(`${snakeBodyLocation[i]} .holder`).append("<div class='snake-body'></div>");
+            console.log(lastPosition)
+        }
+        lastDirection = nextDirection;
+        console.log(newPosition)
         scoreCounter();
     }, 500);
-    snakeBodyLocation[0] = {}
 }
 
 movement();
@@ -142,8 +142,6 @@ movement();
 $("#row3column3 .holder").append("<div id='fruit'></div>")
 
 fruitPosition = $("#fruit").parent().parent().attr("id");
-
-console.log(fruitPosition);
 
 const gameOver = () => {
     if(hackySolutionBecauseIHateClearInterval === 0){
@@ -164,19 +162,16 @@ const newFruitPosition = () => {
     else {$(`#${fruitPosition} .holder`).append("<div id='fruit'></div>")}
 }
 
-function addSnakeLength(){
-    // add to an array where the snake head was last
-    // pass it down
-}
-
 const scoreCounter = () => {
     if("#" + fruitPosition === newPosition){
         score++;
-        addSnakeLength();
+        snakeLength++;
         $("#fruit").remove();
         newFruitPosition();
         $(".score").empty();
         $(".score").html(`<div class='score'>${score}</score>`);
+    }else{
+        snakeBodyLocation.shift();
     }
 }
 
