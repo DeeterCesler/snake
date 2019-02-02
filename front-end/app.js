@@ -129,14 +129,14 @@ const movement = () => {
         $("#snake-head").remove();
         $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
         $(".snake-body").remove();
-        for(let i=snakeLength+1; i>0; i--){
+        for(let i=snakeLength-1; i>0; i--){
             $(`${snakeBodyLocation[i]} .holder`).append("<div class='snake-body'></div>");
             console.log(lastPosition)
         }
         lastDirection = nextDirection;
         console.log(newPosition)
         scoreCounter();
-    }, 500);
+    }, 100);
 }
 
 movement();
@@ -177,11 +177,3 @@ const scoreCounter = () => {
         snakeBodyLocation.shift();
     }
 }
-
-// move a snake around the screen
-// Make it die if it hits a wall
-// Make it die if it hits itself
-// make it grow if it eats a fruit
-// Figure out a way to vary the grid sizes
-
-$("body").prepend("<h2>Use W, A, S, and D to move the green. <br/> Try and collect the red, and don't hit the walls!</h2>")
