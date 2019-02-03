@@ -1,9 +1,7 @@
-body {
-    background-color: black
-}
-
-.special{
-    color:green
+.wrapper {
+    background-color: black;
+    color: white;
+    height: 700px;
 }
 
 table {
@@ -50,4 +48,8 @@ tr {
 
 .score {
     font-size: 1.5em;
+}
+
+.score-cell{
+    margin-right: 10px;
 }

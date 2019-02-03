@@ -1,5 +1,25 @@
 // set up a grid system (10x10)
 
+let allScores;
+
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "/scoreboard",
+    success: function(data){
+        allScores = data;
+        for(let i=0; i<allScores.length; i++){
+            console.log(allScores[i])
+            $(".scoreboard").append(`<tr class="score-row" id='score-row-${i}'></tr>`)
+            $(`#score-row-${i}`).append(`<td class="score-cell">${allScores[i][0]}: </td>`)
+            $(`#score-row-${i}`).append(`<td class="score-cell">${allScores[i][1]}</td>`)
+        }
+    },
+    error: function(){
+        alert(data)
+    }
+});
+
 
 
 const buildGrid = (height, width) => {
@@ -7,7 +27,7 @@ const buildGrid = (height, width) => {
     maxWidth = width - 1;
     for(let i=0; i<height; i++){
         // building rows
-        $("table").append(`<tr id='row${i}'></tr`);
+        $(".grid").append(`<tr id='row${i}'></tr>`);
         for(let j=0; j<width; j++){
             // building columns in each row
             $(`#row${i}`).append(`<td id='row${i}column${j}'></td>`);
@@ -25,7 +45,7 @@ let maxWidth;
 buildGrid(20,20);
 
 let score = 0;
-$("body").append(`<div class='score'>${score}</div>`)
+$(".wrapper").append(`<div class='text-center score'>${score}</div>`)
     
 let snakeRow = 0;
 let snakeColumn = 2;
@@ -76,7 +96,6 @@ const controls = () => {
                 nextDirection = "down";
             }
         }
-        console.log(newPosition);
     })
 }
 
@@ -126,10 +145,8 @@ const movement = () => {
         $(".snake-body").remove();
         for(let i=snakeLength-1; i>0; i--){
             $(`${snakeBodyLocation[i]} .holder`).append("<div class='snake-body'></div>");
-            console.log(lastPosition)
         }
         lastDirection = nextDirection;
-        console.log(newPosition)
         scoreCounter();
     }, 100);
 }
@@ -143,8 +160,8 @@ fruitPosition = $("#fruit").parent().parent().attr("id");
 
 const gameOver = () => {
     if(hackySolutionBecauseIHateClearInterval === 0){
-        $("table").remove();
-        $("body").append("<h1>GAME OVER</h1>")
+        $(".grid").remove();
+        $("#wrapper").append("<h1>GAME OVER</h1>")
     }
     hackySolutionBecauseIHateClearInterval++;
 }
@@ -162,6 +179,7 @@ const newFruitPosition = () => {
         }
     })
     if("#" + fruitPosition === newPosition){
+        $("#fruit").remove();
         newFruitPosition();
     }
     else {$(`#${fruitPosition} .holder`).append("<div id='fruit'></div>")}
