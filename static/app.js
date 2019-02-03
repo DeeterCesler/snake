@@ -12,7 +12,6 @@ const buildGrid = (height, width) => {
             // building columns in each row
             $(`#row${i}`).append(`<td id='row${i}column${j}'></td>`);
             $(`#row${i}column${j}`).append("<div class='holder'></div>")
-            // $(`#row${i}column${j} div`).text(`TEST`)
         }
     }
     // height = number of rows
@@ -27,10 +26,6 @@ buildGrid(20,20);
 
 let score = 0;
 $("body").append(`<div class='score'>${score}</div>`)
-
-
-// move a block from grid point to grid point
-// start 
     
 let snakeRow = 0;
 let snakeColumn = 2;
@@ -159,6 +154,13 @@ const newFruitPosition = () => {
     const randomRow = Math.floor(Math.random() * (maxWidth +1));
     const randomColumn = Math.floor(Math.random() * (maxHeight+1));
     fruitPosition = "row" + randomRow + "column" + randomColumn;
+    snakeBodyLocation.forEach(element => {
+        if(element === "#" + fruitPosition){
+            $("#fruit").remove();
+            newFruitPosition();
+            return
+        }
+    })
     if("#" + fruitPosition === newPosition){
         newFruitPosition();
     }

@@ -1,3 +1,7 @@
+body {
+    background-color: black
+}
+
 .special{
     color:green
 }
@@ -21,7 +25,7 @@ td {
 
 tr {
     height: 20px;
-    background-color: red;
+    background-color: fuchsia;
 }
 
 .holder {
