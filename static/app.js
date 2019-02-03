@@ -1,6 +1,7 @@
 // set up a grid system (10x10)
 
 let allScores;
+let lastScore;
 
 $.ajax({
     type: "GET",
@@ -10,10 +11,12 @@ $.ajax({
         allScores = data;
         for(let i=0; i<allScores.length; i++){
             console.log(allScores[i])
-            $(".scoreboard").append(`<tr class="score-row" id='score-row-${i}'></tr>`)
-            $(`#score-row-${i}`).append(`<td class="score-cell">${allScores[i][0]}: </td>`)
-            $(`#score-row-${i}`).append(`<td class="score-cell">${allScores[i][1]}</td>`)
-        }
+            $(".scoreboard").append(`<div class="row score-row" id='score-row-${i}'></div>`)
+            $(`#score-row-${i}`).append(`<div class="col score-cell">${i+1}. </div>`)
+            $(`#score-row-${i}`).append(`<div class="col score-cell">${allScores[i][0]}: </div>`)
+            $(`#score-row-${i}`).append(`<div class="col score-cell">${allScores[i][1]}</div>`)
+        };
+        lastScore = allScores[allScores.length-1][1];
     },
     error: function(){
         alert(data)
@@ -45,7 +48,7 @@ let maxWidth;
 buildGrid(20,20);
 
 let score = 0;
-$(".wrapper").append(`<div class='text-center score'>${score}</div>`)
+$(".player-score").append(`<div class='text-center score'>Your Score: ${score}</div>`)
     
 let snakeRow = 0;
 let snakeColumn = 2;
@@ -162,6 +165,34 @@ const gameOver = () => {
     if(hackySolutionBecauseIHateClearInterval === 0){
         $(".grid").remove();
         $("#wrapper").append("<h1>GAME OVER</h1>")
+        if(score > lastScore){
+            const playerName = prompt("HIGH SCORE. What's your name?");
+            const playerScore = score;
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "/newscore",
+                data: {
+                    "playerName": playerName, 
+                    "playerScore": playerScore
+                },
+                success: function(){
+                    alert("Your score has been posted.")
+                    // allScores = data;
+                    // for(let i=0; i<allScores.length; i++){
+                    //     console.log(allScores[i])
+                    //     $(".scoreboard").append(`<div class="row score-row" id='score-row-${i}'></div>`)
+                    //     $(`#score-row-${i}`).append(`<div class="col score-cell">${i+1}. </div>`)
+                    //     $(`#score-row-${i}`).append(`<div class="col score-cell">${allScores[i][0]}: </div>`)
+                    //     $(`#score-row-${i}`).append(`<div class="col score-cell">${allScores[i][1]}</div>`)
+                    // };
+                    // lastScore = allScores[length-1][1];
+                },
+                error: function(){
+                    alert(data)
+                }
+            })
+        }
     }
     hackySolutionBecauseIHateClearInterval++;
 }
@@ -192,7 +223,7 @@ const scoreCounter = () => {
         $("#fruit").remove();
         newFruitPosition();
         $(".score").empty();
-        $(".score").html(`<div class='score'>${score}</score>`);
+        $(".score").html(`<div>Your Score: ${score}</score>`);
     }else{
         snakeBodyLocation.shift();
     }

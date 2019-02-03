@@ -1,7 +1,11 @@
 .wrapper {
     background-color: black;
     color: white;
-    height: 700px;
+    /* height: 700px; */
+}
+
+.grid-container{
+    height: 400px;
 }
 
 table {
@@ -46,7 +50,7 @@ tr {
     width: 20px;
 }
 
-.score {
+.score, .player-score {
     font-size: 1.5em;
 }
 
