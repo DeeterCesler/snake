@@ -29,6 +29,7 @@ def newScore():
     playerScore = content["playerScore"]
     cursor.execute('''INSERT INTO `snakeGame`.`userScore` (`name`, `score`) VALUES ('%s', '%s');'''%(playerName,playerScore))
     conn.commit()
+    # not sure what i'm supposed to return
     rv = cursor.fetchall()
     return jsonify(rv)
  
