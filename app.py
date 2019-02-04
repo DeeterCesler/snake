@@ -9,6 +9,8 @@ app.config['MYSQL_DATABASE_PASSWORD'] = '0vB!Metzger'
 app.config['MYSQL_DATABASE_DB'] = 'snakeGame'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
+conn = mysql.connect()
+cursor = conn.cursor()
  
 @app.route("/")
 def index():
@@ -16,27 +18,19 @@ def index():
 
 @app.route("/scoreboard")
 def scores():
-    cur = mysql.connect().cursor()
-    cur.execute('''SELECT name, score FROM userScore ORDER BY score DESC LIMIT 10''')
-    rv = cur.fetchall()
+    cursor.execute('''SELECT name, score FROM userScore ORDER BY score DESC LIMIT 10''')
+    rv = cursor.fetchall()
     return jsonify(rv)
-
-testObject = {
-    "name": "deeter",
-    "age": 26
-    }
-
-print testObject["name"]
-print testObject["age"]
 
 @app.route("/newscore", methods=["POST"])
 def newScore():
-    data = request._get_current_object
-    cur = mysql.connect().cursor()
-    playerName = data["playerName"]
-    playerScore = data["playerScore"]
-    cur.execute('''INSERT INTO `snakeGame`.`userScore` (`name`, `score`) VALUES ('%s', '%s');'''%(playerName,playerScore))
-    return
+    content = request.get_json()
+    playerName = content["playerName"]
+    playerScore = content["playerScore"]
+    cursor.execute('''INSERT INTO `snakeGame`.`userScore` (`name`, `score`) VALUES ('%s', '%s');'''%(playerName,playerScore))
+    conn.commit()
+    rv = cursor.fetchall()
+    return jsonify(rv)
  
 if __name__ == "__main__":
     app.run()

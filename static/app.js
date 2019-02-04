@@ -168,28 +168,20 @@ const gameOver = () => {
         if(score > lastScore){
             const playerName = prompt("HIGH SCORE. What's your name?");
             const playerScore = score;
+            data = {
+                "playerName": playerName, 
+                "playerScore": playerScore
+            };
             $.ajax({
                 type: "POST",
-                dataType: "json",
                 url: "/newscore",
-                data: {
-                    "playerName": playerName, 
-                    "playerScore": playerScore
-                },
+                data: JSON.stringify(data),
+                contentType: "application/json",
                 success: function(){
                     alert("Your score has been posted.")
-                    // allScores = data;
-                    // for(let i=0; i<allScores.length; i++){
-                    //     console.log(allScores[i])
-                    //     $(".scoreboard").append(`<div class="row score-row" id='score-row-${i}'></div>`)
-                    //     $(`#score-row-${i}`).append(`<div class="col score-cell">${i+1}. </div>`)
-                    //     $(`#score-row-${i}`).append(`<div class="col score-cell">${allScores[i][0]}: </div>`)
-                    //     $(`#score-row-${i}`).append(`<div class="col score-cell">${allScores[i][1]}</div>`)
-                    // };
-                    // lastScore = allScores[length-1][1];
                 },
                 error: function(){
-                    alert(data)
+                    console.log(data)
                 }
             })
         }
