@@ -30,7 +30,7 @@ def newScore():
     content = request.get_json()
     playerName = content["playerName"]
     playerScore = content["playerScore"]
-    cursor.execute('''INSERT INTO `snakeGame`.`userScore` (`name`, `score`) VALUES ('%s', '%s');'''%(playerName,playerScore))
+    cursor.execute('''INSERT INTO `d6ihgjazusplm189`.`userScore` (`name`, `score`) VALUES ('%s', '%s');'''%(playerName,playerScore))
     # I realize there is a vulnerability where someone could POST a fake high score. 
     # I've decided to leave it for now, b/c I judge the cost-benefit isn't worth it for this demo.
     conn.commit()
