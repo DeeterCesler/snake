@@ -23,11 +23,11 @@ td {
     background-color: blue;
     border-color: grey;
     position: relative;
-    z-index: -1;
 }
 
 tr {
     height: 20px;
+    background-color: fuchsia;
 }
 
 .holder {
