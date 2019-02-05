@@ -15,7 +15,7 @@ cursor = conn.cursor()
  
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.1.html")
 
 @app.route("/scoreboard")
 def scores():

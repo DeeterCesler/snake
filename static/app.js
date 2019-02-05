@@ -44,9 +44,6 @@ const buildGrid = (height, width) => {
 let maxHeight;
 let maxWidth;
 
-
-buildGrid(20,20);
-
 let score = 0;
 $(".player-score").append(`<div class='text-center score'>Your Score: ${score}</div>`)
     
@@ -61,9 +58,22 @@ let fruitPosition;
 let snakeBodyLocation = ["#row0column0", "#row0column1", newPosition]
 let hackySolutionBecauseIHateClearInterval = 0;
 
+startState = () => {
+    snakeRow = 0;
+    snakeColumn = 2;
+    snakeLength = 3;
+    lastDirection = "right";
+    nextDirection = "right";
+    newPosition = "#row0column2";
+    snakeBodyLocation = ["#row0column0", "#row0column1", newPosition]
+    hackySolutionBecauseIHateClearInterval = 0;
+    score = 0;
+}
+
 $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
 $(`#row0column1 .holder`).append("<div class='snake-body'></div>");
 $(`#row0column0 .holder`).append("<div class='snake-body'></div>");
+
 
 const controls = () => {
     document.addEventListener('keypress', (event) => {
@@ -154,17 +164,10 @@ const movement = () => {
     }, 100);
 }
 
-movement();
-
-// log a point if the snake head eats a fruit
-$("#row3column3 .holder").append("<div id='fruit'></div>")
-
-fruitPosition = $("#fruit").parent().parent().attr("id");
-
 const gameOver = () => {
     if(hackySolutionBecauseIHateClearInterval === 0){
-        $(".grid").remove();
-        $("#wrapper").append("<h1>GAME OVER</h1>")
+        $(".grid").empty();
+        $(".top-text").append("<h1>GAME OVER</h1>")
         if(score > lastScore){
             const playerName = prompt("HIGH SCORE. What's your name?");
             const playerScore = score;
@@ -186,7 +189,17 @@ const gameOver = () => {
                 }
             })
         }
-
+        $(".top-text").append(`<button class="start-game">Play again?</button>`);
+        $(".start-game").on("click", function(){
+            $(".grid").empty();
+            $(".top-text").empty();
+            startState();
+            buildGrid(20,20);
+            $("#row3column3 .holder").append("<div id='fruit'></div>")
+            fruitPosition = $("#fruit").parent().parent().attr("id");
+            $(".score").empty();
+            $(".score").html(`<div>Your Score: ${score}</score>`);
+        })
     }
     hackySolutionBecauseIHateClearInterval++;
 }
@@ -222,3 +235,14 @@ const scoreCounter = () => {
         snakeBodyLocation.shift();
     }
 }
+
+
+$(".top-text").append(`<br/><button class="start-game" style="margin-left: 100px">Start</button>`);
+$(".start-game").on("click", function(){
+    $(".grid").empty();
+    $(".top-text").empty();
+    buildGrid(20,20);
+    $("#row3column3 .holder").append("<div id='fruit'></div>")
+    fruitPosition = $("#fruit").parent().parent().attr("id");
+    movement();
+})
