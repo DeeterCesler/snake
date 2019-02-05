@@ -28,8 +28,10 @@ def newScore():
     playerName = content["playerName"]
     playerScore = content["playerScore"]
     cursor.execute('''INSERT INTO `snakeGame`.`userScore` (`name`, `score`) VALUES ('%s', '%s');'''%(playerName,playerScore))
+    # I realize there is a vulnerability where someone could POST a fake high score. 
+    # I've decided to leave it for now, b/c I judge the cost-benefit isn't worth it for this demo.
     conn.commit()
-    # not sure what i'm supposed to return
+    # not sure what i should be returning
     rv = cursor.fetchall()
     return jsonify(rv)
  
