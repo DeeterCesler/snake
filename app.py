@@ -25,8 +25,6 @@ def scores():
 
 @app.route("/newscore", methods=["POST"])
 def newScore():
-    print ("GOT HERE at least")
-    print (request.get_json())
     content = request.get_json()
     playerName = content["playerName"]
     playerScore = content["playerScore"]
@@ -34,7 +32,7 @@ def newScore():
     # I realize there is a vulnerability where someone could POST a fake high score. 
     # I've decided to leave it for now, b/c I judge the cost-benefit isn't worth it for this demo.
     conn.commit()
-    # not sure what i should be returning
+    # not sure what i should be returning, to be honest
     rv = cursor.fetchall()
     return jsonify(rv)
  

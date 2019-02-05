@@ -41,29 +41,29 @@ const buildGrid = (height, width) => {
     // width = number of columns per row
 }
 
-let maxHeight;
-let maxWidth;
-
-
-buildGrid(20,20);
-
-let score = 0;
-$(".player-score").append(`<div class='text-center score'>Your Score: ${score}</div>`)
+startState = () => {
+    let maxHeight;
+    let maxWidth;
     
-let snakeRow = 0;
-let snakeColumn = 2;
-let snakeLength = 3;
-let lastDirection = "right";
-let nextDirection = "right";
-let newPosition = "#row0column2";
-let lastPosition;
-let fruitPosition;
-let snakeBodyLocation = ["#row0column0", "#row0column1", newPosition]
-let hackySolutionBecauseIHateClearInterval = 0;
+    let score = 0;
+    $(".player-score").append(`<div class='text-center score'>Your Score: ${score}</div>`)
+        
+    let snakeRow = 0;
+    let snakeColumn = 2;
+    let snakeLength = 3;
+    let lastDirection = "right";
+    let nextDirection = "right";
+    let newPosition = "#row0column2";
+    let lastPosition;
+    let fruitPosition;
+    let snakeBodyLocation = ["#row0column0", "#row0column1", newPosition]
+    let hackySolutionBecauseIHateClearInterval = 0;
+    
+    $(`${newPosition} .holder`).append("<div id='snake-head'></div>");
+    $(`#row0column1 .holder`).append("<div class='snake-body'></div>");
+    $(`#row0column0 .holder`).append("<div class='snake-body'></div>");
+}
 
-$(`${newPosition} .holder`).append("<div id='snake-head'></div>");
-$(`#row0column1 .holder`).append("<div class='snake-body'></div>");
-$(`#row0column0 .holder`).append("<div class='snake-body'></div>");
 
 const controls = () => {
     document.addEventListener('keypress', (event) => {
@@ -154,8 +154,6 @@ const movement = () => {
     }, 100);
 }
 
-movement();
-
 // log a point if the snake head eats a fruit
 $("#row3column3 .holder").append("<div id='fruit'></div>")
 
@@ -186,7 +184,7 @@ const gameOver = () => {
                 }
             })
         }
-
+        $(".grid").append(`<br/><br/><button class="start-game">Play again?</button>`);
     }
     hackySolutionBecauseIHateClearInterval++;
 }
@@ -222,3 +220,12 @@ const scoreCounter = () => {
         snakeBodyLocation.shift();
     }
 }
+
+
+$(".grid").append(`<br/><button class="start-game">Start</button>`);
+$(".start-game").on("click", function(){
+    startState();
+    $(".grid").empty();
+    buildGrid(20,20);
+    movement();
+})
