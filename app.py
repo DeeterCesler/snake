@@ -25,7 +25,7 @@ def scores():
 
 @app.route("/newscore", methods=["POST"])
 def newScore():
-    print ("GOT HERE at least!")
+    print ("GOT HERE at least")
     print (request.get_json())
     content = request.get_json()
     playerName = content["playerName"]
