@@ -29,6 +29,7 @@ td {
 tr {
     height: 20px;
     background-color: fuchsia;
+    z-index: -2;
 }
 
 .holder {
