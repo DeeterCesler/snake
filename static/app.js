@@ -180,8 +180,9 @@ const gameOver = () => {
                 success: function(){
                     alert("Your score has been posted.")
                 },
-                error: function(){
-                    console.log(data)
+                error: function(xhr, ajaxOptions, thrownError){
+                    console.log(xhr.status);
+                    console.log(thrownError);
                 }
             })
         }
