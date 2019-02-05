@@ -26,12 +26,6 @@ td {
     z-index: -1;
 }
 
-tr {
-    height: 20px;
-    background-color: fuchsia;
-    z-index: -2;
-}
-
 .holder {
     height: 20px;
     width: 20px;
