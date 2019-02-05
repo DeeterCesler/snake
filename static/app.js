@@ -237,7 +237,7 @@ const scoreCounter = () => {
 }
 
 
-$(".top-text").append(`<br/><button class="start-game" style="margin-left: 100px">Start</button>`);
+$(".top-text").append(`<br/><button class="start-game">Start</button>`);
 $(".start-game").on("click", function(){
     $(".grid").empty();
     $(".top-text").empty();
