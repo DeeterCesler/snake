@@ -19,7 +19,7 @@ def index():
 
 @app.route("/scoreboard")
 def scores():
-    cursor.execute('''SELECT name, score FROM betterScore ORDER BY score DESC LIMIT 10''')
+    cursor.execute('''SELECT name, score FROM userScore ORDER BY score DESC LIMIT 10''')
     rv = cursor.fetchall()
     return jsonify(rv)
 
