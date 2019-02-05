@@ -11,7 +11,7 @@ $.ajax({
         allScores = data;
         for(let i=0; i<allScores.length; i++){
             console.log(allScores[i])
-            $(".scoreboard container").append(`<div class="row score-row" id='score-row-${i}'></div>`)
+            $("container .scoreboard").append(`<div class="row score-row" id='score-row-${i}'></div>`)
             $(`#score-row-${i}`).append(`<div class="col-2 score-cell">${i+1}. </div>`)
             $(`#score-row-${i}`).append(`<div class="col-8 score-cell">${allScores[i][0]} </div>`)
             $(`#score-row-${i}`).append(`<div class="col-2 score-cell">${allScores[i][1]}</div>`)
