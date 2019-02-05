@@ -23,6 +23,7 @@ td {
     background-color: blue;
     border-color: grey;
     position: relative;
+    z-index: -1;
 }
 
 tr {
