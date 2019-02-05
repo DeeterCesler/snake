@@ -26,6 +26,10 @@ td {
     z-index: -1;
 }
 
+tr {
+    height: 20px;
+}
+
 .holder {
     height: 20px;
     width: 20px;
