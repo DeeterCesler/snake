@@ -12,9 +12,9 @@ $.ajax({
         for(let i=0; i<allScores.length; i++){
             console.log(allScores[i])
             $(".scoreboard").append(`<div class="row score-row" id='score-row-${i}'></div>`)
-            $(`#score-row-${i}`).append(`<div class="col-3 score-cell">${i+1}. </div>`)
+            $(`#score-row-${i}`).append(`<div class="col-2 score-cell">${i+1}. </div>`)
             $(`#score-row-${i}`).append(`<div class="col-6 score-cell">${allScores[i][0]} </div>`)
-            $(`#score-row-${i}`).append(`<div class="col-3 score-cell">${allScores[i][1]}</div>`)
+            $(`#score-row-${i}`).append(`<div class="col-2 score-cell">${allScores[i][1]}</div>`)
         };
         lastScore = allScores[allScores.length-1][1];
     },
